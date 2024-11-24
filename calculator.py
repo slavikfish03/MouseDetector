@@ -13,7 +13,8 @@ class Calculator:
     def calculate(self):
         row_data = [f'{self.time_frame[0]}:{self.time_frame[1]}']
         xy = self.calculate_xy_mouse()
-        row_data.append(xy)
+        row_data.append(xy[0])
+        row_data.append(xy[1])
 
         zoning = self.calculate_zone_mouse()
         for zone in zoning:
