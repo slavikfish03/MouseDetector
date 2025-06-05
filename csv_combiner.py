@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
+import os
 from pykalman import KalmanFilter
+
 
 BLOCK_SIZE = 25
 OBSERVATION_MATRIX = np.array([
@@ -27,6 +29,8 @@ class CSVCombiner:
         df_beh_shifted.index = range(len(df_beh_shifted))
 
         result = pd.concat([df_static, df_beh_shifted], axis=1)
+
+        os.makedirs('mouse_data', exist_ok=True)
         excel_file = f'mouse_data\\{self.path_to_behavior_data[:len(self.path_to_behavior_data) - 4]}_data.xlsx'
         result.to_excel(excel_file, index=False)
 
