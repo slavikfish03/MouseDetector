@@ -70,7 +70,6 @@ class MouseDetector:
                 data = self.calculate_data(frame_number, fps, info_mouse, info_arena)
                 self.export_to_csv(data)
 
-
             if self.do_output_video:
                 frame_with_all = self.draw(frame.copy(), info_mouse, info_arena)
                 self.output_video.write(frame_with_all)
@@ -130,12 +129,20 @@ class MouseDetector:
         return len(info_mouse) != 0
 
     def create_output_video(self):
+        print(self.do_output_video)
         if self.do_output_video:
-            output_video = cv2.VideoWriter(f'processed_{self.path_to_video}',
-                                           cv2.VideoWriter_fourcc(*'mp4v'),
+            print("Creating output video")
+            directory = os.path.dirname(self.path_to_video)
+            filename = os.path.basename(self.path_to_video)
+            processed_filename = f'processed_{filename}'
+            output_path = os.path.join(directory, processed_filename)
+            print(f'Creating: {output_path}')
+            output_video = cv2.VideoWriter(output_path,
+                                           cv2.VideoWriter_fourcc(*'H264'),
                                            self.input_video.get(cv2.CAP_PROP_FPS),
                                            (int(self.input_video.get(cv2.CAP_PROP_FRAME_WIDTH)),
                                             int(self.input_video.get(cv2.CAP_PROP_FRAME_HEIGHT))))
+            print(output_video)
             return output_video
         else:
             return None
